@@ -68,8 +68,6 @@ class TextformatterEmbedMedia extends Textformatter
 
 		if (preg_match_all($regex, $str, $matches)) {
 
-			bd($matches);
-
 			foreach ($matches[0] as $key => $line) {
 
 				$url = $this->wire('sanitizer')->url($matches[1][$key], [
@@ -81,9 +79,7 @@ class TextformatterEmbedMedia extends Textformatter
 
 				if ($url) {
 
-
 					$media_type = strtolower($matches[3][$key]);
-
 
 					if($media_type=='mp4'){
 						$tag=' <video controls><source src="' . $url . '" type="video/mp4"></video>';
