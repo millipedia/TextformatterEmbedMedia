@@ -85,7 +85,7 @@ class TextformatterEmbedMedia extends Textformatter
 						$tag=' <video controls><source src="' . $url . '" type="video/mp4"></video>';
 					}else{
 						$tag = '<audio controls class="TextformatterAudioEmbed">'
-						. '<source src="' . $url . '" type="' . $this->audio_formats[strtolower($matches[2][$key])] . '">'
+						. '<source src="' . $url . '" type="' . $this->media_formats[$media_type] . '">'
 						. '</audio>';
 					}
 
