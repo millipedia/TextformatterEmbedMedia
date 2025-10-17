@@ -33,7 +33,7 @@ class TextformatterEmbedMedia extends Textformatter
 	}
 
 	/**
-	 * Audio formats
+	 * Media formats
 	 *
 	 * @var array
 	 */
@@ -56,8 +56,6 @@ class TextformatterEmbedMedia extends Textformatter
 	public function format(&$str)
 	{
 
-
-
 		// bail out early if there are no media files
 		if (stripos($str, '.mp3') === false && stripos($str, '.ogg') === false && stripos($str, '.wav') === false && stripos($str, '.mp4')  === false) {
 			return;
@@ -79,18 +77,24 @@ class TextformatterEmbedMedia extends Textformatter
 
 				if ($url) {
 
+					// This gives us the extension of the media file.
 					$media_type = strtolower($matches[3][$key]);
 
-					if($media_type=='mp4'){
-						$tag=' <video controls><source src="' . $url . '" type="video/mp4"></video>';
-					}else{
-						$tag = '<audio controls class="TextformatterAudioEmbed">'
-						. '<source src="' . $url . '" type="' . $this->media_formats[$media_type] . '">'
-						. '</audio>';
+					// If it's a valid media type, then lets swap it for the relevant tag.
+					// Not really sure we'd get here if it's not a valid media type but just in case.
+					if(array_key_exists($media_type, $this->media_formats)){
+
+						if($media_type=='mp4'){
+							$tag=' <video controls><source src="' . $url . '" type="video/mp4"></video>';
+						}else{//  ...we use an audio tag.
+							$tag = '<audio controls class="TextformatterAudioEmbed">'
+							. '<source src="' . $url . '" type="' . $this->media_formats[$media_type] . '">'
+							. '</audio>';
+						}
+
+						$str = str_replace($line, $tag, $str);
+
 					}
-
-
-					$str = str_replace($line, $tag, $str);
 				}
 			}
 		} else {
